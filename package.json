@@ -1,0 +1,19 @@
+{
+  "name": "mgaserver",
+  "version": "0.0.1",
+  "description": "A server for .cbz and .cbr files to a web/android/iOS front end that will read them.",
+  "main": "app.js",
+  "dependencies": {
+    "unzip": "^0.1.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@127.0.0.1:mgaserver.git"
+  },
+  "author": "Noah Pederson",
+  "license": "ISC"
+}
