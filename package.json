@@ -4,6 +4,8 @@
   "description": "A server for .cbz and .cbr files to a web/android/iOS front end that will read them.",
   "main": "app.js",
   "dependencies": {
+    "connect": "^3.3.3",
+    "express": "^4.10.2",
     "unzip": "^0.1.11"
   },
   "devDependencies": {},
