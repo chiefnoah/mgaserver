@@ -8,5 +8,10 @@ module.exports = function(io) {
       console.log("client disconnected");
     });
 
+    io.on('load db', function() {
+      //TODO: Code for generating the SQLite3 database from the provided path
+    });
+
+
   });
 };
