@@ -2,19 +2,30 @@ module.exports = function() {
   var config = require('../config');
   var Datastore = require('nedb');
   //Persistent database
-  var db = new Datastore({
+  var db = {};
+  db.comics = new Datastore({
     filename: config.database.path
+  });
+
+  db.users = new Datastore({
+    filename: config.database.user_path
   });
   //Memory database (for faster access) DOESN'T need to be loaded
   //var mdb = new Datastore();
-  //Load the database
-  db.loadDatabase(function(err) {
-    if (err) console.log("Error loading database");
+  //Load the databases
+  db.comics.loadDatabase(function(err) {
+    if (err) console.log("Error loading comics database");
     //This should really report the error on the webpage. I'll do it later
-    console.log("Database succesfully loaded");
+    console.log("Comics database succesfully loaded");
   });
 
-//All functions that I want to be accessable to the database object must be inside the return statement here
+  db.users.loadDatabase(function(err) {
+    if (err) console.log("Error loading users database");
+    //This should really report the error on the webpage. I'll do it later
+    console.log("Users database succesfully loaded");
+  });
+
+  //All functions that I want to be accessable to the database object must be inside the return statement here
   return {
     //Expects and array of data to insert into the db.
     dbInsert: function(data) {
