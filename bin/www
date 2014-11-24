@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var debug = require('debug')('mgaserver');
 var app = require('../app');
 var config = require('../config');
@@ -7,15 +8,3 @@ app.set('port', process.env.PORT || config.port || 3000);
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
-
-var io = require('socket.io')(server);
-require('../sockets')(io);
-/*io.on('connection', function(socket) {
-  console.log('client connected');
-  //ALL SOCKET EVENTS GO IN HERE
-  socket.emit('on connect', {message: 'Established socket connection'});
-  io.on('disconnect', function() {
-    console.log("client disconnected");
-  });
-
-}); */
