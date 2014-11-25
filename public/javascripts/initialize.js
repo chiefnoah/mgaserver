@@ -1,4 +1,4 @@
-document.getElementById('socket_message').innerHTML = 'Not connected to server';
+//document.getElementById('socket_message').innerHTML = 'Not connected to server';
 
 //Set loadDb to execute on click
 //document.getElementById('load_database').onclick = loadDb();
