@@ -1,7 +1,6 @@
 /node_modules
 /.DS_Store
 /npm-debug.log
-/Comics
 /db/.cache
 /db/mga-1.db
 /db/users.db
