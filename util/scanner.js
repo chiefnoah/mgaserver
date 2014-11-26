@@ -1,36 +1,54 @@
 module.exports = function() {
-
+  var db = require('./database');
   var fs = require('fs');
   var config = require('../config.js');
   var path = require('path'); //for path.extname(filename)
-  //TODO: Scan directory for cbz and cbr files
+  var walk = require('walk');
 
-  var walk = function(dir, done) {
-    var results = [];
-    fs.readdir(dir, function(err, list) {
-      if (err) return done(err);
-      var pending = list.length;
-      if (!pending) return done(null, results);
-      list.forEach(function(file) {
-        file = dir + '/' + file;
-        fs.stat(file, function(err, stat) {
-          if (stat && stat.isDirectory()) {
-            walk(file, function(err, res) {
-              results = results.concat(res);
-              if (!--pending) done(null, results);
-            });
-          } else {
-            results.push(file);
-            if (!--pending) done(null, results);
-          }
-        });
-      });
-    });
-  };
-
-  walk(config.path, function(err, results) {
-    if (err) console.log(err);
-    console.log(results);
+  var walker = walk.walkSync(config.path, {
+    followLinks: false
   });
 
+  var comicFiles = [];
+
+  walker.on('names', function(root, nodeNamesArray) {
+    nodeNamesArray.sort(function(a, b) {
+      if (a > b) return 1;
+      if (a < a) return -1;
+      return 0;
+    });
+  });
+
+  walker.on('directories', function(root, dirStatsArray, next) {
+    //console.log(root + '/' + dirStatsArray.name);
+    next();
+  });
+
+  walker.on('file', function(root, fileStats, next) {
+    //console.log(root + '/' + fileStats.name);
+    if (path.extname(fileStats.name) === '.cbz') {
+      comicFiles.push(root + '/' + fileStats.name);
+    }
+  });
+
+  walker.on('errors', function(root, nodeStatsArray, next) {
+    console.log(nodeStatsArray);
+    next();
+  });
+
+  walker.on('end', function() {
+    var comicObjects = [];
+    comicFiles.sort();
+    for (var i = 0; i < comicFiles.length; i++) {
+      var c = require('./comic_metadata_generator')(comicFiles[i]);
+      //console.log('Adding ' + c.series_title + ' ' + c.chapter + " ID: " + c._id);
+      //db.comics_dbInsert(c);
+      //console.log('Added ' + c.series_title + ' ' + c.chapter);
+      comicObjects.push(c);
+    }
+    //console.log(comicObjects);
+    db.comics_dbInsert(comicObjects);
+    //console.log(comicFiles);
+    //console.log("DONE!");
+  });
 };
