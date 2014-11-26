@@ -5,3 +5,5 @@
 /db/.cache
 /db/mga-1.db
 /db/users.db
+/db/mga-0.db
+/util/.DS_Store
