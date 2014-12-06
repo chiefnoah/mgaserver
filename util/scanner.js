@@ -43,12 +43,13 @@ module.exports = function() {
       var c = require('./comic_metadata_generator')(comicFiles[i]);
       //console.log('Adding ' + c.series_title + ' ' + c.chapter + " ID: " + c._id);
       //db.comics_dbInsert(c);
-      //console.log('Added ' + c.series_title + ' ' + c.chapter);
+      console.log('Added ' + c.series_title + ' ' + c.chapter);
       comicObjects.push(c);
     }
     //console.log(comicObjects);
     db.comics_dbInsert(comicObjects);
     //console.log(comicFiles);
-    //console.log("DONE!");
+    console.log("DONE!");
+    return comicObjects;
   });
 };

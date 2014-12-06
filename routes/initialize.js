@@ -13,4 +13,5 @@ router.get('/load_database', function(req, res) {
   var scanner = require('../util/scanner')(); //Calls the scanner function
   res.status(200).send('Initializing db');
 });
+
 module.exports = router;
