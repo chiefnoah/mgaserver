@@ -2,8 +2,8 @@
 /.DS_Store
 /npm-debug.log
 /db/.cache
-/db/mga-1.db
-/db/users.db
-/db/mga-0.db
+/db/mga-comics-0.db
+/db/users-0.db
+/db/mga-series-0.db
 /util/.DS_Store
 /Comics
