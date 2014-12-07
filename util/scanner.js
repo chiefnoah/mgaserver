@@ -41,15 +41,17 @@ module.exports = function() {
     comicFiles.sort();
     for (var i = 0; i < comicFiles.length; i++) {
       var c = require('./comic_metadata_generator')(comicFiles[i]);
-      //console.log('Adding ' + c.series_title + ' ' + c.chapter + " ID: " + c._id);
-      //db.comics_dbInsert(c);
-      console.log(c.series_title + ' ' + c.chapter + ' has been found at ' + c.relative_path);
+      console.log('Found ' + c.series_title + ' chapter ' + c.chapter);
       comicObjects.push(c);
     }
+
+    var dbInsertCallback = function(data) {
+      //console.log(data);
+      console.log("The data has been inserted!\nDONE!");
+    };
     //console.log(comicObjects);
-    db.comics_dbInsert(comicObjects);
+    db.comics_dbInsert(comicObjects, dbInsertCallback);
     //console.log(comicFiles);
-    console.log("DONE!");
-    return comicObjects;
   });
+
 };
