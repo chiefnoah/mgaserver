@@ -54,24 +54,36 @@
     });
     */
 
-    //Expects a string with the name of the database and array of data to insert into the db.
-    var comics_dbInsert = function(data) {
+    //Expects a string with the name of the database and array of data to insert into the db and a callback that is executed when the process has finished
+    var comics_dbInsert = function(data, callback) {
       console.log(data);
       db.comics.insert(data, function(err, newDoc) {
+
         if (err) {
           console.log("ERROR!!!!");
           console.log(err);
-          return "Data not added to database 'comics'";
+          return "The comics could not be inserted into the db";
         }
         for (var i = 0; i < newDoc.length; i++) {
           console.log(newDoc[i] + 'has been added to the db');
         }
-        return "Data was successfully saved to comics";
+        if (callback) callback(newDoc);
+      });
+    };
+
+    var comics_dbFind = function(query, callback) {
+      console.log('Querying comics database for ' + query);
+      db.comics.find(query, function(err, docs) {
+        if (err) {
+          console.log(err);
+        }
+        if (callback) callback(docs);
       });
     };
 
     module.exports = {
-      comics_dbInsert: comics_dbInsert
+      comics_dbInsert: comics_dbInsert,
+      comics_dbFind: comics_dbFind
     };
 
     //TODO: More CRUD operations here :D
