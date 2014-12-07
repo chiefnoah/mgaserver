@@ -56,7 +56,6 @@
 
     //Expects a string with the name of the database and array of data to insert into the db and a callback that is executed when the process has finished
     var comics_dbInsert = function(data, callback) {
-      console.log(data);
       db.comics.insert(data, function(err, newDoc) {
 
         if (err) {
@@ -64,9 +63,10 @@
           console.log(err);
           return "The comics could not be inserted into the db";
         }
-        for (var i = 0; i < newDoc.length; i++) {
+        /*for (var i = 0; i < newDoc.length; i++) {
           console.log(newDoc[i] + 'has been added to the db');
-        }
+        }*/
+
         if (callback) callback(newDoc);
       });
     };

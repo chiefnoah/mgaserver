@@ -1,9 +1,11 @@
-module.exports = function() {
+module.exports = function(callback) {
   var db = require('./database');
   var fs = require('fs');
   var config = require('../config.js');
   var path = require('path'); //for path.extname(filename)
   var walk = require('walk');
+  var comicMetadataGen = require('./comic_metadata_generator');
+  var comic = require('./comic_metadata');
 
   var walker = walk.walkSync(config.path, {
     followLinks: false
@@ -40,18 +42,17 @@ module.exports = function() {
     var comicObjects = [];
     comicFiles.sort();
     for (var i = 0; i < comicFiles.length; i++) {
-      var c = require('./comic_metadata_generator')(comicFiles[i]);
-      console.log('Found ' + c.series_title + ' chapter ' + c.chapter);
+      var c = new comic();
+      c = comicMetadataGen(comicFiles[i]);
+      //console.log('Found ' + c.series_title + ' chapter ' + c.chapter);
+      console.log('Inserting ' + c + ' into comicObjects at index ' + i);
       comicObjects.push(c);
     }
 
-    var dbInsertCallback = function(data) {
+    db.comics_dbInsert(comicObjects, function(data) {
       //console.log(data);
       console.log("The data has been inserted!\nDONE!");
-    };
-    //console.log(comicObjects);
-    db.comics_dbInsert(comicObjects, dbInsertCallback);
-    //console.log(comicFiles);
+      callback(comicObjects);
+    });
   });
-
 };

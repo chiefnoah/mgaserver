@@ -1,11 +1,12 @@
 module.exports = function(path) {
-  var comic = require('./comic_metadata');
-  comic.relative_path = path.replace(/^.\/Comics/, "");
+  var Comic = require('./comic_metadata');
+
+  var comic = new Comic();
   var info = [];
   info = path.split('/');
 
+  comic.relative_path = path.replace(/^.\/Comics/, "");
   comic.series_title = info[info.length - 2];
-
   comic.chapter = findChapter(info[info.length - 1]);
   //console.log(findChapter(info[info.length - 1]));
 

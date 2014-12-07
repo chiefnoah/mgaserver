@@ -10,14 +10,15 @@ router.get('/', function(req, res) {
 });
 
 router.get('/load_database', function(req, res) {
-  var scanner = require('../util/scanner')(); //Calls the scanner function. Returns the scanned comic metadata
-  console.log(scanner);
-  var output = '<table><tr><th>Series</th><th>Chapter</th><th>Path</th></tr>';
-  /*for(var i = 0; i < scanner.length; i++) {
-      output+= '<tr><td>' + scanner[i].series_title + '</td><td>' + scanner[i].chapter + '</td><td>' + scanner[i].relative_path + '</td>';
-  } */
-  //console.log(output);
-  res.status(200).send(output);
+  var scanner = require('../util/scanner')(function(data) {
+    var output = '<table width="100%"border="1"><tr><th>Series</th><th>Chapter</th><th>Path</th></tr>';
+    for (var i = 0; i < data.length; i++) {
+      output += '<tr><td>' + data[i].series_title + '</td><td>' + data[i].chapter + '</td><td>' + data[i].relative_path + '</td>';
+    }
+    res.status(200).send(output);
+  }); //Calls the scanner function. Returns the scanned comic metadata
+
 });
+
 
 module.exports = router;
