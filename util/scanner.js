@@ -8,7 +8,7 @@ module.exports = function(callback) {
   var comic = require('./comic_metadata');
 
   var walker = walk.walkSync(config.path, {
-    followLinks: false
+    followLinks: true
   });
 
   var comicFiles = [];
@@ -40,19 +40,31 @@ module.exports = function(callback) {
 
   walker.on('end', function() {
     var comicObjects = [];
+    var fileCount = 0;
     comicFiles.sort();
+
+    var insertCallback = function(err, data) {
+      fileCount++;
+      if (err) {
+        //console.log(err);
+      }
+      if (data) {
+        comicObjects.push(data);
+      }
+      if (fileCount === comicFiles.length) {
+        if (comicObjects.length > 0) {
+          callback(comicObjects);
+        } else {
+          callback(null);
+        }
+
+      }
+    };
     for (var i = 0; i < comicFiles.length; i++) {
       var c = new comic();
       c = comicMetadataGen(comicFiles[i]);
-      //console.log('Found ' + c.series_title + ' chapter ' + c.chapter);
-      console.log('Inserting ' + c + ' into comicObjects at index ' + i);
-      comicObjects.push(c);
+      db.comics_dbInsert(c, insertCallback);
     }
-
-    db.comics_dbInsert(comicObjects, function(data) {
-      //console.log(data);
-      console.log("The data has been inserted!\nDONE!");
-      callback(comicObjects);
-    });
   });
+
 };
