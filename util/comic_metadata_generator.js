@@ -9,14 +9,6 @@ module.exports = function(path) {
   comic.chapter = findChapter(info[info.length - 1]);
   //console.log(findChapter(info[info.length - 1]));
 
-  //comic._id = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-
-  function randomString(length, chars) {
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
-    return result;
-  }
-
   function findChapter(fileName) {
     //console.log(fileName);
     var name = fileName;
