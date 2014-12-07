@@ -56,7 +56,7 @@
 
     //Expects a string with the name of the database and array of data to insert into the db.
     var comics_dbInsert = function(data) {
-      //console.log(data);
+      console.log(data);
       db.comics.insert(data, function(err, newDoc) {
         if (err) {
           console.log("ERROR!!!!");
