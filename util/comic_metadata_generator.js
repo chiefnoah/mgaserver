@@ -17,7 +17,7 @@ module.exports = function(path) {
     //console.log(name);
     re = /[0-9]+/;
     if (re.test(name)) {
-      name = name.replace(/[a-zA-Z]+/g, ""); //Removes all letters from string
+      name = name.replace(/^[^0-9]+/g, ""); //Removes all letters from string
       name = name.replace(/\s/g, ""); //Removes all white space from string
       if (name.search(/[.]/) > 0) {
         var parts = name.split('.');
