@@ -63,7 +63,7 @@
           console.log(err);
           return "Data not added to database 'comics'";
         }
-        for (var i = 0; i < newDoc.length - 1; i++) {
+        for (var i = 0; i < newDoc.length; i++) {
           console.log(newDoc[i] + 'has been added to the db');
         }
         return "Data was successfully saved to comics";
