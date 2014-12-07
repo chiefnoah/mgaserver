@@ -6,6 +6,7 @@ module.exports = function(callback) {
   var walk = require('walk');
   var comicMetadataGen = require('./comic_metadata_generator');
   var comic = require('./comic_metadata');
+  var _ = require('underscore');
 
   var walker = walk.walkSync(config.path, {
     followLinks: true
@@ -40,10 +41,11 @@ module.exports = function(callback) {
 
   walker.on('end', function() {
     var comicObjects = [];
+    var seriesList = [];
     var fileCount = 0;
     comicFiles.sort();
 
-    var insertCallback = function(err, data) {
+    var insertComicsCallback = function(err, data) {
       fileCount++;
       if (err) {
         //console.log(err);
@@ -63,7 +65,17 @@ module.exports = function(callback) {
     for (var i = 0; i < comicFiles.length; i++) {
       var c = new comic();
       c = comicMetadataGen(comicFiles[i]);
-      db.comics_dbInsert(c, insertCallback);
+      seriesList.push(c.series_title);
+      db.comics_dbInsert(c, insertComicsCallback);
+    }
+
+
+
+    //Series Generator
+    seriesList.sort();
+    seriesList = _.uniq(seriesList, true);
+    for (var z = 0; z < seriesList.length; z++) {
+      //TODO: Create new series object and add it to the db
     }
   });
 
