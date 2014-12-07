@@ -4,7 +4,7 @@ module.exports = {
   //Port the server will run on
   port: '3000',
   //Path to directory containing the .cbz and .cbr files
-  path: './Comics',
+  path: './Comics', //"../../../../../Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
 
 
   database: {
