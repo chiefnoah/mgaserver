@@ -43,7 +43,7 @@ module.exports = function() {
       var c = require('./comic_metadata_generator')(comicFiles[i]);
       //console.log('Adding ' + c.series_title + ' ' + c.chapter + " ID: " + c._id);
       //db.comics_dbInsert(c);
-      console.log('Added ' + c.series_title + ' ' + c.chapter);
+      console.log(c.series_title + ' ' + c.chapter + ' has been found at ' + c.relative_path);
       comicObjects.push(c);
     }
     //console.log(comicObjects);
