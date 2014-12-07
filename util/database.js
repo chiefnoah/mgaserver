@@ -17,14 +17,14 @@
       filename: config.database.users_path,
       autoload: true
     });
-    /*
+
     db.comics.ensureIndex({
-      fieldName: 'series_title',
-      unique: false
+      fieldName: 'relative_path',
+      unique: true
     }, function(err) {
       if (err) console.log(err);
     });
-
+    /*
     db.comics.ensureIndex({
       fieldName: 'chapter',
       unique: false
