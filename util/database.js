@@ -47,7 +47,7 @@
     };
 
     var comics_dbFind = function(query, callback) {
-      console.log('Querying comics database for ' + query);
+      //console.log('Querying comics database for ' + query);
       db.comics.find(query, function(err, docs) {
         if (err) {
           console.log(err);
@@ -71,7 +71,16 @@
     };
 
 
-
+    var series_dbFind = function(query, callback) {
+      //console.log('Querying comics database for ' + query);
+      db.series.find(query, function(err, docs) {
+        if (err) {
+          console.log(err);
+          if (callback) callback(err, null);
+        }
+        if (callback) callback(null, docs);
+      });
+    };
 
 
 
@@ -79,7 +88,8 @@
     module.exports = {
       comics_dbInsert: comics_dbInsert,
       comics_dbFind: comics_dbFind,
-      series_dbInsert: series_dbInsert
+      series_dbInsert: series_dbInsert,
+      series_dbFind: series_dbFind
     };
 
     //TODO: More CRUD operations here :D
