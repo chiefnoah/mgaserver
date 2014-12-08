@@ -1,0 +1,25 @@
+<h1>Series</h1>
+<script src="/javascripts/series.js"></script>
+<div id='series_div'>
+  <table width="100%" border="1">
+    <tr>
+      <th>Cover</th>
+      <th>Series</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>ID</id>
+        <th>Rating</th>
+        {{#each series}}
+          <tr>
+            <td><img src='{{cover}}'>
+            </td>
+            <td>{{title}}</td>
+            <td>{{status}}</td>
+            <td>{{{description}}}</td>
+            <td>{{_id}}</td>
+            <td>{{rating}}</td>
+          </tr>
+        {{/each}}
+
+  </table>
+</div>
