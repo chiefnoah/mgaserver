@@ -8,6 +8,7 @@ var db = require('./util/database');
 
 var routes = require('./routes/index');
 var initialize = require('./routes/initialize');
+var series = require('./routes/series');
 
 var app = express();
 app.set('env', 'development'); //Sets the environment to developer mode
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/initialize', initialize);
+app.use('/series', series);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
