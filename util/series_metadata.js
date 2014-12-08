@@ -1,7 +1,8 @@
-function series(title, cover, year, authors, artists, publisher, status, genres, aliases, rating, description) {
+function series(title, cover, start_date, end_date, authors, artists, publisher, status, genres, aliases, rating, chapters, volumes, description) {
   this.title = title;
   this.cover = cover;
-  this.year = year;
+  this.start_date = start_date;
+  this.end_date = end_date;
   this.authors = authors;
   this.artists = artists;
   this.publisher = publisher;
@@ -9,6 +10,8 @@ function series(title, cover, year, authors, artists, publisher, status, genres,
   this.genres = genres;
   this.aliases = aliases;
   this.rating = rating;
+  this.chapters = chapters;
+  this.volumes = volumes;
   this.description = description;
 }
 
