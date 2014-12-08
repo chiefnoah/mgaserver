@@ -3,10 +3,10 @@ module.exports = {
   name: 'Mga Server',
   //Port the server will run on
   port: '3000',
-  //Path to directory containing the .cbz and .cbr files
-  path: './Comics',
-  //path: "../../../../../Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
-
+  //Path to directory containing the.cbz and.cbr files
+  //path: './Comics',
+  path: "../../../../../Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
+  password_protect: false,
 
   database: {
     //This is the path to where the database is stored
@@ -29,10 +29,6 @@ module.exports = {
     myanimelist: {
       username: 'chiefnoah',
       password: '11noah',
-
-      request_url: 'http://myanimelist.net/api/manga/search.xml',
-      requst_variable: 'q'
-        //See http://myanimelist.net/modules.php?go=api for details regarding the API
     },
 
     comicvine: {
