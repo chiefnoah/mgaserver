@@ -1,15 +1,16 @@
 module.exports = function(callback) {
   var db = require('./database');
   var fs = require('fs');
-  var config = require('../config.js');
+  var config = require('../config');
   var path = require('path'); //for path.extname(filename)
   var walk = require('walk');
   var comicMetadataGen = require('./comic_metadata_generator');
   var comic = require('./comic_metadata');
   var _ = require('underscore');
+  var myanimelistscraper = require('./scrapers/myanimelist');
 
   var walker = walk.walkSync(config.path, {
-    followLinks: true
+    followLinks: false
   });
 
   var comicFiles = [];
@@ -69,13 +70,16 @@ module.exports = function(callback) {
       db.comics_dbInsert(c, insertComicsCallback);
     }
 
+    var scrapperCallback = function(result) {
+      db.series_dbInsert(result);
+    };
 
 
     //Series Generator
     seriesList.sort();
     seriesList = _.uniq(seriesList, true);
     for (var z = 0; z < seriesList.length; z++) {
-      //TODO: Create new series object and add it to the db
+      myanimelistscraper.search(seriesList[z], scrapperCallback);
     }
   });
 
