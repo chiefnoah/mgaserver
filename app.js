@@ -5,16 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./util/database');
+var hbs = require('hbs');
+var config = require('./config');
 
 var routes = require('./routes/index');
 var initialize = require('./routes/initialize');
 var series = require('./routes/series');
+var api = require('./routes/api');
 
 var app = express();
-app.set('env', 'development'); //Sets the environment to developer mode
+app.set('env', 'dev'); //Sets the environment to developer mode
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -26,16 +31,19 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(config.path));
 
 app.use('/', routes);
 app.use('/initialize', initialize);
 app.use('/series', series);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  //var err = new Error('Not Found');
+  res.render('404', {});
   err.status = 404;
-  next(err);
+  //next(err);
 });
 
 // error handlers
