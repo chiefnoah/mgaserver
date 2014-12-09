@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/load_database', function(req, res) {
-  var scanner = require('../util/scanner')(function(data) {
+  var scanner = require('../util/scanner')(config.path, function(data) {
     var output = '<table width="100%"border="1"><tr><th>Series</th><th>Chapter</th><th>Path</th></tr>';
     if (data) {
       for (var i = 0; i < data.length; i++) {
