@@ -68,6 +68,17 @@
       });
     };
 
+    var comics_dbRemove = function(query, options, callback) {
+      //console.log('Querying comics database for ' + query);
+      db.comics.remove(query, options, function(err, numRemoved) {
+        if (err) {
+          console.log('DB ERROR: ' + err);
+          if (callback) callback(err, null);
+        }
+        if (callback) callback(null, numRemoved);
+      });
+    };
+
 
     //Expects array of data to insert into the db and a callback that is executed when the process has finished
     var series_dbInsert = function(data, callback) {
@@ -94,6 +105,28 @@
     };
 
 
+    var series_dbFindOne = function(query, callback) {
+      //console.log('Querying comics database for ' + query);
+      db.series.findOne(query, function(err, docs) {
+        if (err) {
+          console.log(err);
+          if (callback) callback(err, null);
+        }
+        if (callback) callback(null, docs);
+      });
+    };
+
+    var series_dbRemove = function(query, options, callback) {
+      //console.log('Querying comics database for ' + query);
+      db.series.remove(query, options, function(err, numRemoved) {
+        if (err) {
+          console.log('DB ERROR: ' + err);
+          if (callback) callback(err, null);
+        }
+        if (callback) callback(null, numRemoved);
+      });
+    };
+
 
 
     module.exports = {
@@ -101,7 +134,10 @@
       comics_dbFind: comics_dbFind,
       series_dbInsert: series_dbInsert,
       series_dbFind: series_dbFind,
-      comics_dbFindOne: comics_dbFindOne
+      comics_dbFindOne: comics_dbFindOne,
+      series_dbFindOne: series_dbFindOne,
+      series_dbRemove: series_dbRemove,
+      comics_dbRemove: comics_dbRemove
     };
 
     //TODO: More CRUD operations here :D
