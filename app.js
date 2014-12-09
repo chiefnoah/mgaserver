@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var db = require('./util/database');
 var hbs = require('hbs');
 var config = require('./config');
+var dirMonitor = require('./util/dir_monitor')(config.path);
 
+//Routes
 var routes = require('./routes/index');
 var initialize = require('./routes/initialize');
 var series = require('./routes/series');
@@ -40,10 +42,9 @@ app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  //var err = new Error('Not Found');
-  res.render('404', {});
+  var err = new Error('Not Found');
   err.status = 404;
-  //next(err);
+  next(err);
 });
 
 // error handlers
@@ -64,10 +65,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.render('404', {});
 });
 
 
