@@ -24,7 +24,7 @@ var search_manga = function(series_title, callback) {
   http.get(options, function(res) {
 
     if (res.statusCode === 200) {
-      console.log('Search query: ' + series_title + ' found data!');
+      //console.log('Search query: ' + series_title + ' found data!');
       var xmlOutput = '';
       res.on('data', function(chunk) {
         xmlOutput += chunk;
@@ -37,9 +37,9 @@ var search_manga = function(series_title, callback) {
         });
       });
     } else if (res.statusCode === 204) {
-      console.log('Search query: ' + series_title + ' found nothing');
+      //console.log('Search query: ' + series_title + ' found nothing');
       result.title = series_title;
-      result.cover = './public/images/series/default.png';
+      result.cover = '/images/default.png';
       result.start_date = '';
       result.end_date = '';
       result.authors = [''];
@@ -52,6 +52,7 @@ var search_manga = function(series_title, callback) {
       result.chapters = 0;
       result.volumes = 0;
       result.description = 'Not available';
+      callback(result);
     }
   }).on('error', function(err) {
     console.log('ERROR: ' + err.message);
