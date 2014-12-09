@@ -1,4 +1,4 @@
-module.exports = function(callback) {
+module.exports = function(dir, callback) {
   var db = require('./database');
   var fs = require('fs');
   var config = require('../config');
@@ -9,7 +9,7 @@ module.exports = function(callback) {
   var _ = require('underscore');
   var myanimelistscraper = require('./scrapers/myanimelist');
 
-  var walker = walk.walkSync(config.path, {
+  var walker = walk.walkSync(dir, {
     followLinks: false
   });
 
@@ -76,8 +76,8 @@ module.exports = function(callback) {
 
 
     //Series Generator
-    seriesList.sort();
-    seriesList = _.uniq(seriesList, true);
+    seriesList.sort(); //Sorts the list of series
+    seriesList = _.uniq(seriesList, true); //Removes repeats
     for (var z = 0; z < seriesList.length; z++) {
       myanimelistscraper.search(seriesList[z], scrapperCallback);
     }
