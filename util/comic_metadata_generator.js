@@ -8,28 +8,24 @@ module.exports = function(path) {
   comic.relative_path = path.replace(/^.\/Comics/, "");
   comic.series_title = info[info.length - 2];
   comic.chapter = findChapter(info[info.length - 1]);
-  //console.log(findChapter(info[info.length - 1]));
 
   function findChapter(fileName) {
-    //console.log(fileName);
     var name = fileName;
     name = name.substring(0, fileName.lastIndexOf('.'));
-    //console.log(name);
     re = /[0-9]+/;
     if (re.test(name)) {
       name = name.replace(/^[^0-9]+/g, ""); //Removes all letters from string
       name = name.replace(/\s/g, ""); //Removes all white space from string
       if (name.search(/[.]/) > 0) {
         var parts = name.split('.');
-        //console.log(parts);
         parts[0] = parts[0].replace(/^0+/, "");
         parts[1] = parts[1].replace(/^0+/, "");
         name = parts[0] + '.' + parts[1];
       } else {
         name = name.replace(/^0+/, "");
       }
-      //console.log(name);
-      return +name;
+
+      return name;
     } else {
       return undefined;
     }
