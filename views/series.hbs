@@ -9,6 +9,7 @@
       <th>Description</th>
       <th>ID</id>
         <th>Rating</th>
+        <th>Levenshtein</th>
         {{#each series}}
           <tr>
             <td><img src='{{cover}}'>
@@ -18,6 +19,7 @@
             <td>{{{description}}}</td>
             <td>{{_id}}</td>
             <td>{{rating}}</td>
+            <td>Levenshtein distance: {{levenshtein}}</td>
           </tr>
         {{/each}}
 
