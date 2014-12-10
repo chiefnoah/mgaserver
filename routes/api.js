@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 });
 
 //This should point to the file to the comic with the ID passed as a parameter
-router.get('/comics', function(req, res) {
+router.get('/file', function(req, res) {
   var comicID = req.query.id;
   //This should only ever return one document.
   if (comicID) {
@@ -17,10 +17,6 @@ router.get('/comics', function(req, res) {
       _id: comicID
     }, function(err, doc) {
       if (doc) {
-        //console.log(doc);
-        //TODO: send file
-        //res.set('Content-Type', 'text/html');
-        //res.send(doc[0].relative_path);
         console.log(doc.relative_path);
         //Set the mime type to a default value
         var mimeType = 'application/octet-stream';
@@ -62,10 +58,21 @@ router.get('/search', function(req, res) {
 
 });
 
-//Searches only the comics
-//If there is a q query variable set it searches that value in series_title
-//If there is a c variable set it searches that value in chapters
-router.get('/comic/search', function(req, res) {
+//Searches comics for a specific id
+router.get('/search/comics/:id', function(req, res) {
+  if (req.params.id) {
+    db.comics_dbFind({
+      _id: req.params.id
+    }, function(err, data) {
+      if (err) res.send(err);
+      else res.send(JSON.stringify(data));
+    });
+  }
+});
+
+//Searches the comics database for the passed series title and the chapter #
+//Currently will return anyting that contains that number
+router.get('/search/comics', function(req, res) {
   var searchQuery = {
     $and: [{
       series_title: /[a-zA-Z]/g
@@ -77,7 +84,7 @@ router.get('/comic/search', function(req, res) {
   if (req.query.q)
     searchQuery.$and[0].series_title = new RegExp(req.query.q, 'gi');
 
-  if (req.query.c) searchQuery.$and[1].chapter = new RegExp(req.query.c, 'g');
+  if (req.query.c) searchQuery.$and[1].chapter = /*new RegExp(*/ req.query.c; /*, 'g');*/
 
   db.comics_dbFind(searchQuery, function(err, data) {
     if (err) res.send(err);
@@ -87,7 +94,7 @@ router.get('/comic/search', function(req, res) {
 });
 
 //Searches only series
-router.get('/series/search', function(req, res) {
+router.get('/search/series', function(req, res) {
   var searchQuery = req.query.q;
   //TODO: Code for querying series
 });
