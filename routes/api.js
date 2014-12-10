@@ -59,8 +59,9 @@ router.get('/search', function(req, res) {
 });
 
 //Searches comics for a specific id
-router.get('/search/comics/:id', function(req, res) {
-  if (req.params.id) {
+router.get('/search/comics/id/:id', function(req, res) {
+  console.log(req.params.id);
+  if (req.params.id !== '') {
     db.comics_dbFind({
       _id: req.params.id
     }, function(err, data) {
