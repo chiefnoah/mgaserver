@@ -1,4 +1,4 @@
-function series(title, cover, start_date, end_date, authors, artists, publisher, status, genres, aliases, rating, chapters, volumes, description) {
+function series(title, cover, start_date, end_date, authors, artists, publisher, status, genres, aliases, rating, chapters, volumes, description, levenshtein) {
   this.title = title;
   this.cover = cover;
   this.start_date = start_date;
@@ -13,6 +13,7 @@ function series(title, cover, start_date, end_date, authors, artists, publisher,
   this.chapters = chapters;
   this.volumes = volumes;
   this.description = description;
+  this.levenshtein = levenshtein;
 }
 
 module.exports = series;

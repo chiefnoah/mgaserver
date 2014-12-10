@@ -52,7 +52,8 @@ var search_manga = function(series_title, callback) {
       result.rating = 0.0;
       result.chapters = 0;
       result.volumes = 0;
-      result.description = 'Not available';
+      result.description = 'No description available';
+      result.levenshtein = 0;
       callback(result);
     }
   }).on('error', function(err) {
@@ -94,7 +95,8 @@ var search_manga = function(series_title, callback) {
     result.chapters = mData.chapters[0];
     result.volumes = mData.volumes[0];
     result.rating = mData.score[0];
-    this.aliases = mData.synonyms;
+    result.aliases = mData.synonyms;
+    result.levenshtein = levenDis[maxIndex];
   }
 
 
