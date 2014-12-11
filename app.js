@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./util/database');
 var hbs = require('hbs');
+var passport = require('passport');
+var passport_http = require('passport-http');
 var config = require('./config');
 var dirMonitor = require('./util/dir_monitor')(config.path);
 
@@ -33,7 +35,13 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(config.path));
+app.use(express.static(config.path)); //Serves the folder with the comic files
+
+/*passport.use(new BasicStrategy(
+  function(username, password, done) {
+
+  }
+));*/
 
 app.use('/', routes);
 app.use('/initialize', initialize);
