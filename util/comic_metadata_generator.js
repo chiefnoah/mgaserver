@@ -7,7 +7,7 @@ module.exports = function(path) {
 
   comic.relative_path = path.replace(/^.\/Comics/, "");
   comic.series_title = info[info.length - 2];
-  comic.type = info[info.length - 3];
+  comic.media_type = info[info.length - 3];
   comic.chapter = findChapter(info[info.length - 1]);
 
   function findChapter(fileName) {
