@@ -137,7 +137,10 @@
       comics_dbFindOne: comics_dbFindOne,
       series_dbFindOne: series_dbFindOne,
       series_dbRemove: series_dbRemove,
-      comics_dbRemove: comics_dbRemove
+      comics_dbRemove: comics_dbRemove,
+      series: db.series,
+      comics: db.comcis,
+      users: db.users
     };
 
     //TODO: More CRUD operations here :D
