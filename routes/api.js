@@ -5,7 +5,10 @@ var path = require('path');
 
 /* GET api. */
 router.get('/', function(req, res) {
-  res.render('404', {});
+  //res.render('404', {});
+  res.write({
+    error: 'invalid path'
+  });
 });
 
 //This should point to the file to the comic with the ID passed as a parameter
@@ -13,7 +16,7 @@ router.get('/file', function(req, res) {
   var comicID = req.query.id;
   //This should only ever return one document.
   if (comicID) {
-    db.comics_dbFindOne({
+    db.comics.findOne({
       _id: comicID
     }, function(err, doc) {
       if (doc) {
@@ -62,7 +65,7 @@ router.get('/search', function(req, res) {
 router.get('/search/comics/id/:id', function(req, res) {
   console.log(req.params.id);
   if (req.params.id !== '') {
-    db.comics_dbFind({
+    db.comics.find({
       _id: req.params.id
     }, function(err, data) {
       if (err) res.send(err);
@@ -87,7 +90,7 @@ router.get('/search/comics', function(req, res) {
 
   if (req.query.c) searchQuery.$and[1].chapter = /*new RegExp(*/ req.query.c; /*, 'g');*/
 
-  db.comics_dbFind(searchQuery, function(err, data) {
+  db.comics.find(searchQuery, function(err, data) {
     if (err) res.send(err);
     else res.send(JSON.stringify(data));
   });

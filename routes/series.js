@@ -5,7 +5,7 @@ var db = require('../util/database');
 
 
 router.get('/', function(req, res) {
-  db.series_dbFind({}, function(err, data) {
+  db.series.find({}, function(err, data) {
     for (var i = 0; i < data.length; i++) {
       var cPath = data[i].cover;
       if (cPath) data[i].cover = cPath.substring(cPath.search(/\/images/i));

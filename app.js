@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./util/database');
 var hbs = require('hbs');
-var passport = require('passport');
-var expressSession = require('express-session');
 var config = require('./config');
 var dirMonitor = require('./util/dir_monitor')(config.path);
 
@@ -23,17 +21,6 @@ app.set('env', 'dev'); //Sets the environment to developer mode
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-
-//Passport initialization
-app.use(expressSession({
-  secret: 'test-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  proxy: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
 
 
 // uncomment after placing your favicon in /public

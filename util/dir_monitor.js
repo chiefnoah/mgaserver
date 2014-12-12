@@ -24,8 +24,13 @@ module.exports = function(dir) {
       var c = comic_gen(path);
       comicFiles.push(path);
       seriesInFiles.push(c.series_title);
-      //console.log('saving ' + path + ' to db');
-      db.comics_dbInsert(c);
+      db.comics.update({
+        path: path
+      }, c, {
+        upsert: true
+      }, function(err, numReplaced, newDoc) {
+
+      });
     }
   });
 
@@ -33,7 +38,7 @@ module.exports = function(dir) {
     console.log('File', path, 'has been removed');
 
     if (mPath.extname(path) === '.cbz' || mPath.extname(path) === '.cbr') {
-      db.comics_dbRemove({
+      db.comics.remove({
         relative_path: path
       }, {
         multi: true
@@ -45,11 +50,14 @@ module.exports = function(dir) {
   });
 
   watcher.on('error', function(err) {
-    conole.log(err);
+    console.log(err);
   });
 
   var scrapperCallback = function(result) {
-    db.series_dbInsert(result);
+    //db.series_dbInsert(result);
+    db.series.insert(result, function(err, newDoc) {
+      //Optional callback
+    });
   };
 
   watcher.on('ready', function() {
@@ -66,7 +74,7 @@ module.exports = function(dir) {
 
   //Loops through the files that were just scanned and removes them from the database if they weren't there
   function removeMissingFiles() {
-    db.comics_dbFind({}, function(err, data) {
+    db.comics.find({}, function(err, data) {
       var pathsSaved = [];
 
       for (var i = 0; i < data.length; i++) {
@@ -75,17 +83,14 @@ module.exports = function(dir) {
       var toRemove = _.difference(pathsSaved, comicFiles);
       var removeCallback = function(err, numRemoved) {
         if (err) console.log(err);
-        //console.log(numRemoved);
       };
 
 
       for (var z = 0; z < toRemove.length; z++) {
-        //console.log('removing ' + toRemove[z]);
         db.comics_dbRemove({
           relative_path: toRemove[z]
         }, {}, removeCallback);
       }
-      //console.log('done removing');
     });
   }
 
