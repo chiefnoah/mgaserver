@@ -8,6 +8,7 @@ var db = require('./util/database');
 var hbs = require('hbs');
 var config = require('./config');
 var dirMonitor = require('./util/dir_monitor')(config.path);
+var passport = require('passport');
 
 //Routes
 var routes = require('./routes/index');
@@ -35,7 +36,15 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(config.path)); //Serves the folder with the comic files
 
+app.use(passport.initialize());
+var initPassport = require('./passport/init');
+initPassport(passport);
 
+app.all('/', passport.authenticate('digest', {
+  sessin: false
+}), function(reqq, res) {
+  res.write(req.user.username);
+});
 
 app.use('/', routes);
 app.use('/initialize', initialize);
