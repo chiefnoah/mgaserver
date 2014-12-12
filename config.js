@@ -4,8 +4,8 @@ module.exports = {
   //Port the server will run on
   port: '3000',
   //Path to directory containing the.cbz and.cbr files
-  //path: './Comics',
-  path: "/Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
+  path: './Comics',
+  //path: "/Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
   password_protect: false,
 
   database: {
@@ -19,7 +19,7 @@ module.exports = {
 
   //Define users here. The default user
   users: [{
-    name: 'noah',
+    username: 'noah',
     password: '11noah',
     sync: false, //Syncronize comic read data
     admin: true
