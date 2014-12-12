@@ -87,7 +87,7 @@ module.exports = function(dir) {
 
 
       for (var z = 0; z < toRemove.length; z++) {
-        db.comics_dbRemove({
+        db.comics.remove({
           relative_path: toRemove[z]
         }, {}, removeCallback);
       }

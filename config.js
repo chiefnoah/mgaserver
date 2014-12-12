@@ -19,7 +19,7 @@ module.exports = {
 
   //Define users here. The default user
   users: [{
-    name: 'noah',
+    username: 'noah',
     password: '11noah',
     sync: false, //Syncronize comic read data
     admin: true

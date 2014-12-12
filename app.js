@@ -9,11 +9,12 @@ var hbs = require('hbs');
 var config = require('./config');
 var dirMonitor = require('./util/dir_monitor')(config.path);
 var passport = require('passport');
+var user = require('./util/user');
 
 //Routes
 var routes = require('./routes/index');
 var initialize = require('./routes/initialize');
-var series = require('./routes/series');
+//var series = require('./routes/series');
 var api = require('./routes/api');
 
 var app = express();
@@ -40,14 +41,15 @@ app.use(passport.initialize());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-app.all('/', passport.authenticate('digest', {
-  sessin: false
-}), function(reqq, res) {
+/*app.get('/', passport.authenticate('local', {
+  session: false
+}), function(req, res) {
   res.write(req.user.username);
-});
+});*/
 
 app.use('/', routes);
 app.use('/initialize', initialize);
+var series = require('./routes/series')(passport);
 app.use('/series', series);
 app.use('/api', api);
 
