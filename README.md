@@ -1,8 +1,6 @@
-MgaServer
-==========
 
-Author: Noah Pederson
+#MgaServer
+* Author: Noah Pederson
+* Email: pedersonnoah@gmail.com
 
-Email: pedersonnoah@gmail.com
-
-Description: A server that hosts cbz and cbr files.
+* Description: A server that hosts cbz and cbr files.

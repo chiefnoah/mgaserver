@@ -14,6 +14,7 @@ var model = function(username, password, favorites, completed) {
   completed: false,
   last_read: 0
 }*/
+
 };
 
 
