@@ -1,5 +1,5 @@
 /node_modules
-/.DS_Store
+.DS_Store
 /npm-debug.log
 /db/.cache
 /db/mga-comics-0.db

@@ -58,7 +58,7 @@ router.get('/file', function(req, res) {
 //Searches both comics and series
 router.get('/search', function(req, res) {
   var searchQuery = req.query.q;
-
+  //TODO: Search stuff
 });
 
 //Searches comics for a specific id
