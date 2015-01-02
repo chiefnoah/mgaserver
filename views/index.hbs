@@ -1,18 +1,16 @@
-<script src="/javascripts/controllers/index.js"></script>
-
-<div id="series" ng-controller="SeriesCtrl as seriesCtrl">
+<div ng-controller="SeriesCtrl as seriesCtrl">
   <h1>Series</h1>
-    <table id='series-table'>
-      <tr>
-        <th>Cover</th>
-        <th>Series</th>
-        <th>Status</th>
-        <th>Description</th>
-        <th>ID</th>
-        <th>Rating</th>
-        <th>Levenshtein</th>
-      </tr>
-      <div ng-repeat="series in seriesCtrl">
+  <table id='series-table'>
+    <tr>
+      <th>Cover</th>
+      <th>Series</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>ID</th>
+      <th>Rating</th>
+      <th>Levenshtein</th>
+    </tr>
+    <div ng-repeat="series in seriesList">
       <tr>
         <td><img ng-src='series.image'></td>
         <td> \{{ series.title }} </td>
@@ -22,7 +20,6 @@
         <td> \{{ series.rating }} </td>
         <td> \{{ series.levenshtein }} </td>
       </tr>
-    </table>
-  </div>
-
+    </div>
+  </table>
 </div>

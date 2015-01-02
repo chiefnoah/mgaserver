@@ -101,6 +101,10 @@ router.get('/search/comics', function(req, res) {
 router.get('/search/series', function(req, res) {
   var searchQuery = req.query.q;
   //TODO: Code for querying series
+  db.series.find(searchQuery, function(err, data) {
+    if(err) res.send(err);
+    else res.send(JSON.stringify(data));
+  });
 });
 
 module.exports = router;
