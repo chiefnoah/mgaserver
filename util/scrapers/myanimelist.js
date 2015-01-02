@@ -119,8 +119,8 @@ var search_manga = function(series_title, callback) {
     download(imageURL, fileURI, function() {
       //console.log('saved ' + imageURL + ' to ' + fileURI);
     });
-    
-    return '/images/series/' + path.basename(imageURL);
+
+    return fileURI;//'/images/series/' + path.basename(imageURL);
   }
 
 
