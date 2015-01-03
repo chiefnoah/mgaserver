@@ -1,0 +1,25 @@
+<div ng-controller="SeriesCtrl">
+  <h1>Series</h1>
+  <table id='series-table'>
+    <tr>
+      <th>Cover</th>
+      <th>Series</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>ID</th>
+      <th>Rating</th>
+      <th>Levenshtein</th>
+    </tr>
+    <div>
+      <tr ng-repeat="series in seriesList">
+        <td><img ng-src='{{series.cover}}'></td>
+        <td> {{ series.title }} </td>
+        <td> {{ series.status }} </td>
+        <td> {{ series.description }} </td>
+        <td> {{ series._id }} </td>
+        <td> {{ series.rating }} </td>
+        <td> {{ series.levenshtein }} </td>
+      </tr>
+    </div>
+  </table>
+</div>

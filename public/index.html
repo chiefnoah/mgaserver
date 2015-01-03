@@ -1,44 +1,21 @@
 <html ng-app="mgaServer">
+
 <head>
   <title>Mga Server</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,300' rel='stylesheet' type='text/css'/>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,300' rel='stylesheet' type='text/css' />
   <meta http-equiv="Content-Type" content='text/html' ; charset="utf-8" />
-  <script src="/javascripts/lib/angular.js"></script>
-  <script src="/javascripts/controllers/index.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <!-- All module dependencies must be reference before the app.js reference -->
+  <script src="/javascripts/controllers/basic-list.js"></script>
+
+  <script src="app.js"></script>
+
 </head>
 
 <body>
-  <div ng-controller="SeriesCtrl">
-    <h1>Series</h1>
-    <table id='series-table'>
-      <tr>
-        <th>Cover</th>
-        <th>Series</th>
-        <th>Status</th>
-        <th>Description</th>
-        <th>ID</th>
-        <th>Rating</th>
-        <th>Levenshtein</th>
-      </tr>
-      <div>
-        <tr ng-repeat="series in seriesList">
-          <td><img ng-src='{{series.cover}}'></td>
-          <td> {{ series.title }} </td>
-          <td> {{ series.status }} </td>
-          <td> {{ series.description }} </td>
-          <td> {{ series._id }} </td>
-          <td> {{ series.rating }} </td>
-          <td> {{ series.levenshtein }} </td>
-        </tr>
-      </div>
-    </table>
-  </div>
-
-
-  <div layout="column">
-    <a>test text</a>
-    <a>test 2 text</a>
-  </div>
+  <div ng-view></div>
 </body>
+
 </html>
