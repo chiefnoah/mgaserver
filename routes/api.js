@@ -58,7 +58,7 @@ router.get('/file', function(req, res) {
 //Searches both comics and series
 router.get('/search', function(req, res) {
   var searchQuery = req.query.q;
-
+  //TODO: Search stuff
 });
 
 //Searches comics for a specific id
@@ -101,6 +101,10 @@ router.get('/search/comics', function(req, res) {
 router.get('/search/series', function(req, res) {
   var searchQuery = req.query.q;
   //TODO: Code for querying series
+  db.series.find(searchQuery, function(err, data) {
+    if(err) res.send(err);
+    else res.send(JSON.stringify(data));
+  });
 });
 
 module.exports = router;

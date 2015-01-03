@@ -5,6 +5,14 @@ var app = require('../app');
 var config = require('../config');
 app.set('port', process.env.PORT || config.port || 3000);
 
+
+
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
+
+/*var storage = require('node-persist');
+storage.init();
+storage.setItem('name', config.name);
+storage.setItem('port', config.port);
+storage.setItem('path', config.path); */

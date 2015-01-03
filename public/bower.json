@@ -1,0 +1,21 @@
+{
+  "name": "mgaserver-frontend",
+  "version": "0.0.0",
+  "authors": [
+    "Noah Pederson <pedersonnoah@gmail.com>"
+  ],
+  "description": "Web interface for MgaServer",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
