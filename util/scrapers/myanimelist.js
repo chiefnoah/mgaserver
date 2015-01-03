@@ -120,7 +120,7 @@ var search_manga = function(series_title, callback) {
       //console.log('saved ' + imageURL + ' to ' + fileURI);
     });
 
-    return fileURI;//'/images/series/' + path.basename(imageURL);
+    return '/images/series/' + path.basename(imageURL);
   }
 
 
