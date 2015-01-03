@@ -3,11 +3,20 @@
 <head>
   <title>Mga Server</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <!-- These need to be here so ngMaterial doesn't yell at me -->
+  <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+  <link rel="stylesheet" href="/bower_components/angular-material/themes/blue-theme.css">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700,300' rel='stylesheet' type='text/css' />
   <meta http-equiv="Content-Type" content='text/html' ; charset="utf-8" />
+
+  <!-- a TON of dependencies -->
   <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/hammerjs/hammer.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
-  <!-- All module dependencies must be reference before the app.js reference -->
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+<!-- All module dependencies must be reference before the app.js reference -->
   <script src="/javascripts/controllers/basic-list.js"></script>
 
   <script src="app.js"></script>

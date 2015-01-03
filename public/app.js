@@ -1,5 +1,8 @@
 var app = angular.module("mgaServer", [
 'ngRoute',
+'ngAnimate',
+'ngAria',
+'ngMaterial',
 'basicListController'
 ]);
 
@@ -10,4 +13,9 @@ app.config(['$routeProvider', function($routeProvider) {
     controller: 'SeriesCtrl'
   }).otherwise({redirectTo:'/'});
 
+}]);
+app.config(['$mdThemingProvider', function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+  .primaryColor('pink')
+  .accentColor('orange');
 }]);
