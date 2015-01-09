@@ -3,6 +3,8 @@ var router = express.Router();
 var db = require('../util/database');
 var path = require('path');
 
+function(app) {
+
 /* GET api. */
 router.get('/', function(req, res) {
   //res.render('404', {});
@@ -106,5 +108,7 @@ router.get('/search/series', function(req, res) {
     else res.send(JSON.stringify(data));
   });
 });
+return router;
+}
 
-module.exports = router;
+//module.exports = router;
