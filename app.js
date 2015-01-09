@@ -51,7 +51,7 @@ app.use('/', routes);
 app.use('/initialize', initialize);
 var series = require('./routes/series')(passport);
 app.use('/series', series);
-app.use('/api', api);
+app.use('/api', api(app));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
