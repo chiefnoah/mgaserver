@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../util/database');
 var path = require('path');
+var passport = require('passport');
 
 module.exports = function(app) {
 
@@ -100,7 +101,9 @@ module.exports = function(app) {
   });
 
   //Searches only series
-  router.get('/search/series', function(req, res) {
+  app.get('/api/search/series', passport.authenticate('local', {
+    session: false
+  }), function(req, res) {
     var searchQuery = req.query.q;
     //TODO: Code for querying series
     db.series.find(searchQuery, function(err, data) {
@@ -109,6 +112,6 @@ module.exports = function(app) {
     });
   });
   return router;
-}
+};
 
 //module.exports = router;

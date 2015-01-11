@@ -1,9 +1,6 @@
 var app = angular.module("mgaServer", [
-'ngRoute',
-'ngAnimate',
-'ngAria',
-'ngMaterial',
-'basicListController'
+  'ngRoute',
+  'basicListController'
 ]);
 
 app.config(['$routeProvider', function($routeProvider) {
@@ -11,11 +8,8 @@ app.config(['$routeProvider', function($routeProvider) {
   when('/', {
     templateUrl: 'partials/basic_list.html',
     controller: 'SeriesCtrl'
-  }).otherwise({redirectTo:'/'});
+  }).otherwise({
+    redirectTo: '/'
+  });
 
-}]);
-app.config(['$mdThemingProvider', function($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-  .primaryColor('pink')
-  .accentColor('orange');
 }]);
