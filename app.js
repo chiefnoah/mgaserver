@@ -10,10 +10,6 @@ var dirMonitor = require('./util/dir_monitor')(config.path);
 var passport = require('passport');
 var user = require('./util/user');
 
-//Routes
-var routes = require('./routes/index');
-var initialize = require('./routes/initialize');
-//var series = require('./routes/series');
 var api = require('./routes/api');
 
 var app = express();
@@ -28,7 +24,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('', express.static(path.join(__dirname, 'public')));
 app.use(express.static(config.path)); //Serves the folder with the comic files
 
 app.use(passport.initialize());
@@ -40,6 +37,7 @@ initPassport(passport);
 }), function(req, res) {
   res.write(req.user.username);
 });*/
+
 
 app.use('/api', api(app));
 
