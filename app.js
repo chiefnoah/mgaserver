@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./util/database');
-var hbs = require('hbs');
 var config = require('./config');
 var dirMonitor = require('./util/dir_monitor')(config.path);
 var passport = require('passport');
@@ -19,10 +18,6 @@ var api = require('./routes/api');
 
 var app = express();
 app.set('env', 'dev'); //Sets the environment to developer mode
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-hbs.registerPartials(__dirname + '/views/partials');
 
 
 // uncomment after placing your favicon in /public
@@ -33,7 +28,6 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(config.path)); //Serves the folder with the comic files
 
@@ -47,10 +41,6 @@ initPassport(passport);
   res.write(req.user.username);
 });*/
 
-app.use('/', routes);
-app.use('/initialize', initialize);
-var series = require('./routes/series')(passport);
-app.use('/series', series);
 app.use('/api', api(app));
 
 // catch 404 and forward to error handler
