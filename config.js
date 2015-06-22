@@ -4,7 +4,9 @@ module.exports = {
   //Port the server will run on
   port: '3000',
   //Path to directory containing the.cbz and.cbr files
-  path: './Comics',
+  //path: './Comics',
+  //path: 'F:/Development/NodeJS/mgaserver/Comics',
+  path: 'F:/eBooks/eComics',
   //path: "/Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
   password_protect: false,
 
@@ -20,7 +22,7 @@ module.exports = {
   //Define users here. The default user
   users: [{
     username: 'noah',
-    password: '11noah',
+    password: 'password',
     sync: false, //Syncronize comic read data
     admin: true
   }],
@@ -28,12 +30,11 @@ module.exports = {
   scrapers: {
     myanimelist: {
       username: 'chiefnoah',
-      password: '11noah',
+      password: 'password',
     },
 
     comicvine: {
       //TODO: Add stuff for comicvine scraper API
     }
   }
-
 };

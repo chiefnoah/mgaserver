@@ -4,10 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var db = require('./util/database');
+//var db = require('./util/database');
+var YACHandler = require('./util/YACHandler');
 var hbs = require('hbs');
 var config = require('./config');
-var dirMonitor = require('./util/dir_monitor')(config.path);
+
+//TODO: Check if using YACReader or ComicRack backend or if we should initialize the dirmonitor
+//var dirMonitor = require('./util/dir_monitor')(config.path);
 
 //Routes
 var routes = require('./routes/index');

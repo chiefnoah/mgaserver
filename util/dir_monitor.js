@@ -67,7 +67,9 @@ module.exports = function(dir) {
 
     removeMissingFiles();
     for (var i = 0; i < seriesInFiles.length; i++) {
-      myanimelistscraper.search(seriesInFiles[i], scrapperCallback);
+      if(seriesInFiles[i]) {
+        myanimelistscraper.search(seriesInFiles[i], scrapperCallback);
+      }
     }
     console.log('Initial scan complete. Ready for file changes...');
   });
