@@ -1,38 +1,33 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../util/YACHandler');
+var db = require('../util/YDBHandler');
 var path = require('path');
 var config = require('../config');
 
 /* GET api. */
-router.get('/', function(req, res) {
-    //res.render('404', {});
-    res.send({
-        error: 'invalid path'
-    });
+router.get('/', function(req, res, next) {
+    if(config.use_api_key) {
+      var key = req.query.api_key;
+
+      }
+      next();
 });
 
-
+//TODO: restructure to accept query arguments
 router.get('/comiclist', function(req, res) {
-    var limit = req.query.limit;
-    if (limit > 0) {
-        var limitString = " LIMIT " + limit
-    } else {
-        var limitString = "";
-    };
-    db.getComicInfo("SELECT * FROM comic_info" + limitString, function(err, rows) {
-        console.log(err);
-        res.send(JSON.stringify(rows));
+    db.getComicInfo("SELECT * FROM comic_info, comic WHERE comic.comicInfoId = comic_info.id ORDER BY comic_info.number", function(err, rows) {
+        if(err) console.log(err);
+        res.send(JSON.stringify({total_count: rows.length, page_count: rows.length, comics: rows}));
     });
 });
 
 //Searches comics for a specific id
 router.get('/comic/:id', function(req, res) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
 
     db.getComicInfo("SELECT * FROM comic_info WHERE id=" + req.params.id, function(err, rows) {
-        console.log(err);
-        res.send(JSON.stringify(rows));
+        if(err) console.log(err);
+        res.send(JSON.stringify({total_count: rows.length, page_count: rows.length, comics: rows}));
     });
 });
 
@@ -140,7 +135,7 @@ router.get('/search/series', function(req, res) {
 });
 
 router.get('/version', function(req, res) {
-    res.send("MgaServer v0.1");
+    res.send(JSON.stringify({server: "MgaServer v0.1", version: "0.0.7"}));
 });
 
 router.get('/dbinfo', function(req, res) {

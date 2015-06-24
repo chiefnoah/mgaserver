@@ -10,6 +10,12 @@ module.exports = {
   //path: "/Volumes/FreeAgent Drive/NOAH'S/eBooks/eComics",
   password_protect: false,
 
+  use_api_key: false,
+
+  api_keys: [
+    ""
+  ],
+
   database: {
     //This is the path to where the database is stored
     //You probably don't need to change this
