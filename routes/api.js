@@ -1,23 +1,41 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../util/YDBHandler');
-var path = require('path');
-var config = require('../config');
+var config = require('../util/settings_handler').getConfig();
 
-/* GET api. */
-router.get('/', function(req, res, next) {
-    if(config.use_api_key) {
-      var key = req.query.api_key;
-
-      }
+router.get("/", function(req, res, next) {
+    if (req.query.cmd) {
+        var cmd = req.query.cmd;
+        switch (cmd) {
+            case 'restart':
+                console.log('restarting server...');
+                //TODO: restart server
+                break;
+            case 'reset':
+                console.log('resetting server');
+                //TODO: reset server
+                break;
+            case 'stop':
+                console.log('stopping server');
+                //TODO: stop server
+                break;
+            default:
+                next();
+        }
+    } else {
       next();
+    }
 });
 
 //TODO: restructure to accept query arguments
 router.get('/comiclist', function(req, res) {
-    db.getComicInfo("SELECT * FROM comic_info, comic WHERE comic.comicInfoId = comic_info.id ORDER BY comic_info.number", function(err, rows) {
-        if(err) console.log(err);
-        res.send(JSON.stringify({total_count: rows.length, page_count: rows.length, comics: rows}));
+    db.getComicInfo([], function(err, rows) {
+        if (err) console.log(err);
+        res.send(JSON.stringify({
+            total_count: rows.length,
+            page_count: rows.length,
+            comics: rows
+        }));
     });
 });
 
@@ -25,17 +43,27 @@ router.get('/comiclist', function(req, res) {
 router.get('/comic/:id', function(req, res) {
     //console.log(req.params.id);
 
-    db.getComicInfo("SELECT * FROM comic_info WHERE id=" + req.params.id, function(err, rows) {
-        if(err) console.log(err);
-        res.send(JSON.stringify({total_count: rows.length, page_count: rows.length, comics: rows}));
+    db.getComicInfo(["I.id = " + req.params.id], function(err, rows) {
+        if (err) {
+          console.log(err); 
+          res.status(404).end();
+          return;
+        }
+        res.send(JSON.stringify({
+            total_count: rows.length,
+            page_count: rows.length,
+            comics: rows
+        }));
     });
 });
 
+//TODO: convert this to comicstreamer compatible
 //This should point to the file to the comic with the ID passed as a parameter
 router.get('/comic/:id/file', function(req, res) {
     var comicID = req.query.id;
     //This should only ever return one document.
-    if (comicID) {
+    //if (comicID) {
+    if (false) {
         db.comics.findOne({
             _id: comicID
         }, function(err, doc) {
@@ -90,7 +118,7 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
                 }
             });
         } else {
-          next();
+            next();
         }
     });
 });
@@ -98,44 +126,38 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
 //Returns a image of page in comic book
 router.get('/comic/:id/page/:pagenum', function(req, res) {
     console.log("Comic ID: " + req.params.id + " Page Num: " + req.params.pagenum);
-    //TODO: code here
+    //TODO: extract comic file and serve up the page
 });
 
-//Searches the comics database for the passed series title and the chapter #
-//Currently will return anyting that contains that number
-router.get('/search/comics', function(req, res) {
-    var searchQuery = {
-        $and: [{
-            series_title: /[a-zA-Z]/g
-        }, {
-            chapter: /[0-9]+$/
-        }]
-    };
-
-    if (req.query.q)
-        searchQuery.$and[0].series_title = new RegExp(req.query.q, 'gi');
-
-    if (req.query.c) searchQuery.$and[1].chapter = /*new RegExp(*/ req.query.c; /*, 'g');*/
-
-    db.comics.find(searchQuery, function(err, data) {
-        if (err) res.send(err);
-        else res.send(JSON.stringify(data));
-    });
-
+router.get('/folders/0/:path', function(req, res) {
+  var path = "/" + req.params.path;
+  console.log("Path: " + path);
+  db.getFolders(path, function(result) {
+    res.send(JSON.stringify(result));
+  });
 });
 
-//Searches only series
-router.get('/search/series', function(req, res) {
-    var searchQuery = req.query.q;
-    //TODO: Code for querying series
-    db.series.find(searchQuery, function(err, data) {
-        if (err) res.send(err);
-        else res.send(JSON.stringify(data));
-    });
+router.get('/folders/0/', function(req, res) {
+  var path = '/';
+  console.log("Path: " + path);
+  db.getFolders(path, function(result) {
+    res.send(JSON.stringify(result));
+  });
+});
+
+router.get('/folders', function(req, res) {
+  var path = '/';
+  console.log("Path: " + path);
+  db.getFolders(path, function(result) {
+    res.send(JSON.stringify(result));
+  });
 });
 
 router.get('/version', function(req, res) {
-    res.send(JSON.stringify({server: "MgaServer v0.1", version: "0.0.7"}));
+    res.send(JSON.stringify({
+        server: "MgaServer v0.1",
+        version: "0.0.7"
+    }));
 });
 
 router.get('/dbinfo', function(req, res) {
@@ -146,3 +168,13 @@ router.get('/dbinfo', function(req, res) {
 });
 
 module.exports = router;
+
+
+//Quick check to see if an we have an empty object
+function isEmpty(obj) {
+  for(var prop in obj) {
+    if(obj.hasOwnProperties(prop))
+      return false;
+  }
+  return true;
+}

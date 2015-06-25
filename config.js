@@ -16,21 +16,11 @@ module.exports = {
     ""
   ],
 
-  database: {
-    //This is the path to where the database is stored
-    //You probably don't need to change this
-    series_path: './db/mga-series-0.db',
-    comics_path: './db/mga-comics-0.db',
-    users_path: './db/users-0.db'
-  },
-  //TODO: Add more config options
 
   //Define users here. The default user
   users: [{
     username: 'noah',
-    password: 'password',
-    sync: false, //Syncronize comic read data
-    admin: true
+    password: 'password'
   }],
 
   scrapers: {

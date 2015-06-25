@@ -7,16 +7,17 @@ var bodyParser = require('body-parser');
 //var db = require('./util/database');
 var YACHandler = require('./util/YDBHandler');
 var hbs = require('hbs');
-var config = require('./config');
+var config = require('./util/settings_handler').getConfig();
 
 //TODO: Check if using YACReader or ComicRack backend or if we should initialize the dirmonitor
 //var dirMonitor = require('./util/dir_monitor')(config.path);
 
 //Routes
 var routes = require('./routes/index');
-var initialize = require('./routes/initialize');
-var series = require('./routes/series');
+//var initialize = require('./routes/initialize');
+//var series = require('./routes/series');
 var api = require('./routes/api');
+var authentication = require('./routes/authentication');
 
 var app = express();
 app.set('env', 'dev'); //Sets the environment to developer mode
@@ -35,15 +36,17 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(config.path)); //Serves the folder with the comic files
+//app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(config.path)); //Serves the folder with the comic files
 
 
+//Authentication router
+app.use(authentication);
 
+
+app.use('/', api);
+//app.use('/api', api); //old api path
 app.use('/', routes);
-app.use('/initialize', initialize);
-app.use('/series', series);
-app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
