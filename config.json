@@ -1,0 +1,24 @@
+{
+  "name": "Mga Server",
+  "port": 3000,
+
+  "path": "F:/eBooks/eComics",
+
+  "use_api_key": false,
+
+  "api_keys": [
+    "1234"
+  ],
+  "use_authentication": false,
+  "users": [{
+    "username": "noah",
+    "password": "password"
+  }],
+
+  "scrapers": {
+    "myanimelist": {
+      "username": "chiefnoah",
+      "password": "password"
+    }
+  }
+}
