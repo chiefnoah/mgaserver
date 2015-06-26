@@ -4,12 +4,12 @@
 
   "path": "F:/eBooks/eComics",
 
-  "use_api_key": false,
+  "use_api_key": true,
 
   "api_keys": [
     "1234"
   ],
-  "use_authentication": false,
+  "use_authentication": true,
   "users": [{
     "username": "noah",
     "password": "password"

@@ -1,5 +1,6 @@
 var sqlite = require('sqlite3').verbose();
 var querystring = require('querystring');
+var path = require('path');
 var config = require('./settings_handler').getConfig();
 var db = new sqlite.Database(config.path + '/.yacreaderlibrary/library.ydb');
 var moment = require('moment');
@@ -158,10 +159,12 @@ var getComicInfo = function(params, callback) {
             rows[i].teams = [];
 
             //if anything is null cast it to an empty string
-            rows[i].series = rows[i].series === null ? "" : rows[i].series + "";
+            var parentDir = rows[i].folderPath.split('/');
+            parentDir = parentDir[parentDir.length -1];
+            rows[i].series = rows[i].series === null ? parentDir : rows[i].series + ""; //Defaults to name of directory it's in. This could be bad if the files aren't properly oganized
             rows[i].issue = rows[i].issue === null ? "" : rows[i].issue + "";
             rows[i].imprint = ""
-            rows[i].title = rows[i].title === null ? "" : rows[i].title + "";
+            rows[i].title = rows[i].title === null ? path.basename(rows[i].comicPath)  : rows[i].title + ""; //Title defaults to the issue number + file name
             rows[i].comments = rows[i].comments === null ? "" : rows[i].comments + "";
             rows[i].issue = rows[i].issue === null ? "" : rows[i].comments + ""; 
             rows[i].hash = rows[i].hash === null ? "" : rows[i].hash + "";
