@@ -18,9 +18,8 @@ Prerequisites: NodeJS + npm, [YACReaderLibrary](http://www.yacreader.com/) and a
 4. Run `node bin/www`
 
 ###Planned Features
-* Multiple backends (ie. ComicRack sync)
 * Standalone parsing and ComicVine + MyAnimeList scraping
 * YACReader multiuser
 * more that I can't think of right now. It's 4 AM here, I need to go to bed
-* YACReaderLibrary + YACReader iOS API backwards compatibility
+* YACReaderLibrary + YACReader iOS API backwards compatibility <- This is complex and undocumented. Probably not goint to prioritize
 * Webpage configuration, so you don't have to edit config.json
