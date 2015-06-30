@@ -142,7 +142,6 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
 
         if (rows[0]) {
             var thumbnailPath = path.normalize(config.path + '/.yacreaderlibrary/covers/' + rows[0].hash + '.jpg');
-            thumbnailPath = thumbnailPath.replace(/\//g, "\\");
             console.log(thumbnailPath);
             var mimeType = 'image/jpeg';
             var options = {
