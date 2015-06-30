@@ -29,18 +29,18 @@ var getComicInfo = function(params, callback) {
     }
 
     if (params.role) {
-        params.role = params.role.replace("*", "%");
+        params.role = params.role.replace(/\*/g, "%");
         if (params.person) {
-            params.person = params.person.replace("*", "%");
+            params.person = params.person.replace(/\*/g, "%");
             where += params.role + " LIKE \"" + params.person + "\" AND ";
         }
     } else if (params.person) {
-        params.person = params.person.replace("*", "%");
+        params.person = params.person.replace(/\*/g, "%");
         where += "(writer || penciller || inker || colorist || letterer || coverArtist) LIKE \"" + params.person + "\" AND ";
     }
 
     if (!isEmpty(params.keyphrase)) {
-        params.keyphrase = "%" + params.keyphrase.replace("*", "%") + "%";
+        params.keyphrase = "%" + params.keyphrase.replace(/\*/g, "%") + "%";
         where += "((volume || title || publisher || path || synopsis || notes || characters || storyArc) LIKE \"" + params.keyphrase + "\" AND ";
     }
 
@@ -56,11 +56,11 @@ var getComicInfo = function(params, callback) {
     where += addQueryOnScalar("publisher", params.publisher);
     //Characters are stored in a way that can't be .split so we'll just wildcard it :P
     if (!isEmpty(params.characters)) {
-        params.characters = params.characters.replace("*", "%");
+        params.characters = params.characters.replace(/\*/g, "%");
         where += "characters LIKE \"" + params.characters + "\" AND ";
     }
     if (!isEmpty(params.tag)) {
-        params.tag = params.tag.replace("*", "%");
+        params.tag = params.tag.replace(/\*/g, "%");
         where += "(characters || synopsis || publisher || writer || coverArtist) LIKE " + params.tag + " AND ";
     }
 
@@ -166,7 +166,6 @@ var getComicInfo = function(params, callback) {
             rows[i].imprint = ""
             rows[i].title = rows[i].title === null ? path.basename(rows[i].comicPath)  : rows[i].title + ""; //Title defaults to the issue number + file name
             rows[i].comments = rows[i].comments === null ? "" : rows[i].comments + "";
-            rows[i].issue = rows[i].issue === null ? "" : rows[i].comments + ""; 
             rows[i].hash = rows[i].hash === null ? "" : rows[i].hash + "";
             rows[i].lastread_page = rows[i].lastread_page === null ? "" : rows[i].lastread_page + "";
             rows[i].weblink = "";
@@ -197,6 +196,7 @@ var getFolders = function(path, callback) {
             console.log("Error with path: " + err);
             return;
         }
+        //Nested DB queries because we need 3 completely separate datasets. I could technically combine these last two, but it would over complicate things
         db.all("SELECT id, parentId, name, path FROM folder where parentId=" + dir.id + " AND id != 1", function(err, dirsRows) {
             if (err) {
                 callback(err, null); //requires testing. Might throw error if there's no children. Have to check
@@ -234,6 +234,9 @@ var getFolders = function(path, callback) {
     });
 };
 
+var getBaseFolders = function() {
+
+}
 
 
 
