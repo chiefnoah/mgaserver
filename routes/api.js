@@ -98,7 +98,7 @@ router.get('/comic/:id/file', function(req, res) {
         }
         if (row) {
 
-            row.path = (config.path + row.path).replace(/\//g, "\\");
+            row.path = path.normalize(config.path + row.path);
             console.log("PATH: " + row.path);
 
             var mimeType = 'application/octet-stream';
@@ -141,7 +141,7 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
         }
 
         if (rows[0]) {
-            var thumbnailPath = config.path + '/.yacreaderlibrary/covers/' + rows[0].hash + '.jpg';
+            var thumbnailPath = path.normalize(config.path + '/.yacreaderlibrary/covers/' + rows[0].hash + '.jpg');
             thumbnailPath = thumbnailPath.replace(/\//g, "\\");
             console.log(thumbnailPath);
             var mimeType = 'image/jpeg';
