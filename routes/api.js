@@ -56,6 +56,10 @@ router.get('/comiclist', function(req, res) {
     queryParams.tag = req.query.tag;
     queryParams.genre = req.query.genre;
 
+    //paging params
+    queryParams.limit = req.query.per_page;
+    queryParams.offset = req.query.offset;
+
 
     db.getComicInfo(queryParams, function(err, rows) {
         if (err) console.log(err);
