@@ -114,6 +114,13 @@ var getComicInfo = function(params, callback) {
         }
     }
 
+    if (!isEmpty(params.limit)) {
+        sql += " LIMIT " + params.limit;
+    }
+
+    if(!isEmpty(params.offset)) {
+        sql += " OFFSET " + params.offset;
+    }
 
     //console.log("Querying with: " + sql);
     db.all(sql, function(err, rows) {
