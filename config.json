@@ -1,8 +1,11 @@
 {
   "name": "Mga Server",
   "port": 3000,
+  "use_https": false,
+  "https_port": 3003,
 
   "path": "F:/eBooks/eComics",
+  "paths": ["F:/eBooks/eComics/", "F:/Development/NodeJS/mgaserver/Comics"],
 
   "use_api_key": true,
 
@@ -18,7 +21,14 @@
   "scrapers": {
     "myanimelist": {
       "username": "chiefnoah",
-      "password": "password"
+      "password": "password",
+      "use": false
+    },
+    "comicvine": {
+      "token": "",
+      "use": false
     }
-  }
+  },
+  "default_log_level": "info",
+  "log_location": "./log.txt"
 }
