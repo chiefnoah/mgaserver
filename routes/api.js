@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var querystring = require('querystring');
 var path = require('path');
-var db = require('../util/YDBHandler');
-var config = require('../util/settings_handler').getConfig();
+var config = require('../util/settings_handler');
+var db = require('../util/YDBHandler')(config.getConfig().path);
 
 router.get("/", function(req, res, next) {
     if (req.query.cmd) {
@@ -45,7 +45,6 @@ router.get('/comiclist', function(req, res) {
     queryParams.added_since = req.query.added_since;
     queryParams.modified_since = req.query.modified_since;
     queryParams.lastread_since = req.query.lastread_since;
-    queryParams.order = req.query.order;
     queryParams.character = req.query.character;
     queryParams.team = req.query.team;
     queryParams.location = req.query.location;
@@ -55,11 +54,12 @@ router.get('/comiclist', function(req, res) {
     queryParams.credit = req.query.credit;
     queryParams.tag = req.query.tag;
     queryParams.genre = req.query.genre;
+    queryParams.filename = req.query.filename;
 
     //paging params
+    queryParams.orderby = req.query.order;
     queryParams.limit = req.query.per_page;
     queryParams.offset = req.query.offset;
-
 
     db.getComicInfo(queryParams, function(err, rows) {
         if (err) console.log(err);
@@ -102,7 +102,7 @@ router.get('/comic/:id/file', function(req, res) {
         }
         if (row) {
 
-            row.path = path.normalize(config.path + row.path);
+            row.path = path.normalize(config.getConfig().path + row.path);
             console.log("PATH: " + row.path);
 
             var mimeType = 'application/octet-stream';
@@ -145,7 +145,7 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
         }
 
         if (rows[0]) {
-            var thumbnailPath = path.normalize(config.path + '/.yacreaderlibrary/covers/' + rows[0].hash + '.jpg');
+            var thumbnailPath = path.normalize(config.getConfig().path + '/.yacreaderlibrary/covers/' + rows[0].hash + '.jpg');
             console.log(thumbnailPath);
             var mimeType = 'image/jpeg';
             var options = {
