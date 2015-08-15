@@ -9,3 +9,8 @@ module.exports = function() {
 		"last_read_page": 0 //Page number of the last read page.
 	};
 };
+
+//SQLITE STATEMENT
+//CREATE TABLE IF NOT EXISTS [user](id INTEGER PRIMARY KEY, comicInfoId INTEGER NOT NULL, read INTEGER DEFAULT 0, completed INTEGER DEFAULT 0, date_last_read INTEGER, date_completed INTEGER, last_read_page INTEGER DEFAULT 0, FOREIGN KEY(comicInfoId) REFERENCES comic_info(id) ON DELETE CASCADE)
+
+//CREATE TABLE IF NOT EXISTS progress(id INTEGER PRIMARY KEY, comicInfoId INTEGER NOT NULL, userId INTEGER NOT NULL, read INTEGER DEFAULT 0, completed INTEGER DEFAULT 0, date_last_read INTEGER, date_completed INTEGER, last_read_page INTEGER DEFAULT 0, FOREIGN KEY(comicInfoId) REFERENCES comic_info(id) ON DELETE CASCADE, FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE)
