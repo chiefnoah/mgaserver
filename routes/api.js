@@ -4,6 +4,7 @@ var querystring = require('querystring');
 var path = require('path');
 var config = require('../util/settings_handler');
 var db = require('../util/YDBHandler')(config.getConfig().path);
+var forever = require('forever-monitor');
 
 router.get("/", function(req, res, next) {
     if (req.query.cmd) {
@@ -12,6 +13,8 @@ router.get("/", function(req, res, next) {
             case 'restart':
                 console.log('restarting server...');
                 //TODO: restart server
+                forever.restart();
+                res.redirect('/comiclist?per_page=10'); //placeholder redirect
                 break;
             case 'reset':
                 console.log('resetting server');
@@ -237,9 +240,13 @@ router.get('/version', function(req, res) {
 router.get('/dbinfo', function(req, res) {
     res.type('application/json');
     //TODO: return DB info. 
-    res.send(JSON.stringify({
-        Version: "test"
-    }));
+    db.getDBInfo(function(err, dbinfo) {
+        if(err) {
+            res.send({error: "There was an error"});
+            return;
+        }
+        res.send(JSON.stringify(dbinfo))
+    });
 });
 
 module.exports = router;
