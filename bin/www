@@ -2,7 +2,7 @@
 
 var debug = require('debug')('mgaserver');
 var app = require('../app');
-var config = require('../config');
+var config = require('../util/settings_handler').getConfig();
 app.set('port', process.env.PORT || config.port || 3000);
 
 var server = app.listen(app.get('port'), function() {
