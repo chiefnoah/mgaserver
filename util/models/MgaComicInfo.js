@@ -4,16 +4,18 @@ module.exports = function() {
 
     "title": "", //Title of the individual comic issue
     "series": "", //Series title
-    "issue_number": 0, //The issue number of the individual comic/issue. Usually used for sorting and reading order
+    "issue_number": 0, //The issue number of the individual comic/issue. Usually used for sorting and reading order. Supports decimals (ie. 16.5)
 
-    "page_count": 0, //
+    "page_count": 0, //number of pages/images in the archive
+
+    "filesize": 0, //Size of the file in bytes
 
     //Credits. Pretty self explanitory
     "credits": {
       "author": "",
       "artist": "",
-      "publisher": "",*
-      "other": [""] //I haven't decided if this should be an associative array or just an array of strings
+      "publisher": "",
+      "other": [""] //Formatted "job:name" stored in the database as such
     },
 
     "volume": "", //Name of the volume. Used for grouping. I don't expect this to be used too often.
@@ -21,7 +23,7 @@ module.exports = function() {
     "genres": ["", ""], //Genres. Pretty self explanitory
 
     //DATES! :D
-    "date_added" : 0, //Date added to the database. Stored in a 
+    "date_added" : 0, //Date added to the database. Stored as UNIX timestamp
     "publish_date": 0, //Date published
 
     "synopsis": "", //Pretty self explanitory
@@ -44,3 +46,7 @@ module.exports = function() {
     
   }
 }
+
+
+//SQLITE STATEMENT:
+//CREATE TABLE IF NOT EXISTS comic_info(id INTEGER PRIMARY KEY, title TEXT, series TEXT, issue_number REAL, page_count INTEGER, filesize INTEGER, credits TEXT, volume TEXT, genres TEXT, date_added INTEGER, publish_date INTEGER, synopsis: TEXT, characters TEXT, date_last_read INTEGER, read INTEGER DEFAULT 0, completed INTEGER DEFAULT 0, last_read_page INTEGER DEFAULT 0, rating INTEGER DEFAULT 0, status TEXT, bookmarks TEXT, other TEXT)
