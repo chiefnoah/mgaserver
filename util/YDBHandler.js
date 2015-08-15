@@ -98,11 +98,10 @@ module.exports = function(dbpath) {
         }
 
         //Sorting order
-        if (!isEmpty(params.orderby)) {
-            console.log("ORDER BY: " + params.order);
-            if(params.orderby.charAt(0) === "-" || params.orderby.charAt(0) === "+") {
-                var desc = (params.orderby.charAt(0) === "-");
-                params.orderby = params.orderby.substring(1);
+        if (!isEmpty(params.order)) {
+            if (params.order.charAt(0) === "-" || params.order.charAt(0) === "+") {
+                var desc = (params.order.charAt(0) === "-");
+                params.order = params.order.substring(1);
             } else {
                 var desc = false;
             }
@@ -128,11 +127,12 @@ module.exports = function(dbpath) {
                 sql += " ASC";
             }
         }
-        console.log("Limit is: " + params.limit);
-        console.log("Limit: " + params.limit + " is " + isEmpty(params.limit));
+
         if (!isEmpty(params.limit)) {
+            console.log("Settings limit: " + params.limit);
             sql += " LIMIT " + params.limit;
         }
+
 
         if (!isEmpty(params.offset)) {
             sql += " OFFSET " + params.offset;
@@ -142,9 +142,11 @@ module.exports = function(dbpath) {
 
         db.all(sql, function(err, rows) {
             if (err) {
+                console.log(err);
                 callback(err, null);
                 return;
             }
+            console.log("Returned: " + rows.length + " rows");
             for (var i = 0; i < rows.length; i++) {
                 //Translate YAC Reader Metadata into ComicStreamer Compliant data
                 //Some of the fileinfo can't be retrieved without accessing the filesystem which would drastically slow down the performance (probably?)
@@ -265,7 +267,7 @@ module.exports = function(dbpath) {
 
     //Quick check to see if an we have an empty object
     function isEmpty(obj) {
-        if(typeof obj === "string") return true;
+        if (typeof obj === "string") return false;
         for (var prop in obj) {
             if (obj.hasOwnProperties(prop))
                 return false;

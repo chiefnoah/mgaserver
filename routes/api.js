@@ -60,7 +60,7 @@ router.get('/comiclist', function(req, res) {
     queryParams.filename = req.query.filename;
 
     //paging params
-    queryParams.orderby = req.query.order;
+    queryParams.order = req.query.order;
     queryParams.limit = req.query.per_page;
     queryParams.offset = req.query.offset;
 
