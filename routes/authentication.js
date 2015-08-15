@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var auth = require('basic-auth');
 var config = require('../util/settings_handler').getConfig();
+var hash = require('password-hash');
 
 
 router.all('*', function(req, res, next) {
