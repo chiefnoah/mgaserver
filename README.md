@@ -12,14 +12,19 @@ So far I've gotten Astonishing Comic Reader for Android to work pretty well.
 ###Installation
 Prerequisites: NodeJS + npm, [YACReaderLibrary](http://www.yacreader.com/) and a comic database set up
 
-1. Run`git https://github.com/chiefnoah/mgaserver.git`
-2. `get branch lite` 
-3. Run `npm install`
-4. Run `node bin/www`
+###Setup
+
+Step 1: Clone the repository. To do this, open up command prompt and run `git https://github.com/chiefnoah/mgaserver.git`
+
+Step 2: Switch to the lite brach. This can be done by typing in `get branch lite`
+
+
+Step 3. Install the necessary dependencies. Again, from command prompt run `npm install`
+
+Step 4. Finally, run the server by executing the `www` file in side the `bin` folder. To do this type `node bin/www` into command prompt and hit enter.
 
 ###Planned Features
 * Standalone parsing and ComicVine + MyAnimeList scraping
-* YACReader multiuser
-* more that I can't think of right now. It's 4 AM here, I need to go to bed
+* YACReader multiuser (possibly)
 * YACReaderLibrary + YACReader iOS API backwards compatibility <- This is complex and undocumented. Probably not goint to prioritize
-* Webpage configuration, so you don't have to edit config.json
+* Webpage configuration and management
