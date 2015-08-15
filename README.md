@@ -16,12 +16,9 @@ Prerequisites: NodeJS + npm, [YACReaderLibrary](http://www.yacreader.com/) and a
 
 Step 1: Clone the repository. To do this, open up command prompt and run `git https://github.com/chiefnoah/mgaserver.git`
 
-Step 2: Switch to the lite brach. This can be done by typing in `get branch lite`
+Step 2. Install the necessary dependencies. Again, from command prompt run `npm install`
 
-
-Step 3. Install the necessary dependencies. Again, from command prompt run `npm install`
-
-Step 4. Finally, run the server by executing the `www` file in side the `bin` folder. To do this type `node bin/www` into command prompt and hit enter.
+Step 3. Finally, run the server by executing the `www` file in side the `bin` folder. To do this type `node bin/www` into command prompt and hit enter.
 
 ###Planned Features
 * Standalone parsing and ComicVine + MyAnimeList scraping
