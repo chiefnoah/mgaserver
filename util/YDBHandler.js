@@ -98,34 +98,36 @@ module.exports = function(dbpath) {
         }
 
         //Sorting order
+        var desc = false;
         if (!isEmpty(params.order)) {
             if (params.order.charAt(0) === "-" || params.order.charAt(0) === "+") {
                 var desc = (params.order.charAt(0) === "-");
                 params.order = params.order.substring(1);
-            } else {
-                var desc = false;
             }
-            var sortBy = "id";
-            switch (params.order) {
-                case "volume":
-                case "issue":
-                case "date":
-                case "publisher":
-                case "title":
-                case "path":
-                case "series":
-                    sortBy = params.order;
-                    break;
-                default:
-                    sortBy = "id";
-            }
+        } else {
+            params.order = "series"
+        }
+        console.log("Soring by: " + params.order + " desc? " + desc);
+        var sortBy = "id";
+        switch (params.order) {
+            case "volume":
+            case "issue":
+            case "date":
+            case "publisher":
+            case "title":
+            case "path":
+            case "series":
+                sortBy = params.order;
+                break;
+            default:
+                sortBy = "id";
+        }
 
-            sql += " ORDER BY " + sortBy;
-            if (desc) {
-                sql += " DESC";
-            } else {
-                sql += " ASC";
-            }
+        sql += " ORDER BY " + sortBy;
+        if (desc) {
+            sql += " DESC";
+        } else {
+            sql += " ASC";
         }
 
         if (!isEmpty(params.limit)) {
@@ -265,9 +267,13 @@ module.exports = function(dbpath) {
 
     }
 
-    //Quick check to see if an we have an empty object
+    //Quick check to see if an we have an empty object or a string
     function isEmpty(obj) {
-        if (typeof obj === "string") return false;
+        if (typeof obj === "string") {
+            if (obj.length > 0) {
+                return false;
+            }
+        }
         for (var prop in obj) {
             if (obj.hasOwnProperties(prop))
                 return false;
