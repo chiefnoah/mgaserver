@@ -8,11 +8,16 @@ module.exports = function(dbpath) {
 
     //Quick check to make sure we have yacreaderlibrary file to actually open.
     if (dbpath.indexOf(".yacreaderlibrary") < 0) {
-        dbpath += "/.yacreaderlibrary/library.ydb"
+        dbpath += "/.yacreaderlibrary/library_2.ydb" //CHANGE THIS FOR WHEN NON DEVELOPMENT
         dbpath = path.normalize(dbpath);
     }
     //console.log("Opening database file: " + dbpath);
     var db = new sqlite.Database(dbpath);
+
+    var CREATE_USERS = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT UNIQUE NOT NULL, password TEXT, api_keys TEXT)";
+    var CREATE_PROGRESS = "CREATE TABLE IF NOT EXISTS progress(id INTEGER PRIMARY KEY, comicInfoId INTEGER NOT NULL, userId INTEGER NOT NULL, read INTEGER DEFAULT 0, completed INTEGER DEFAULT 0, date_last_read INTEGER, date_completed INTEGER, last_read_page INTEGER DEFAULT 0, FOREIGN KEY(comicInfoId) REFERENCES comic_info(id) ON DELETE CASCADE, FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE)";
+    db.run(CREATE_USERS);
+    db.run(CREATE_PROGRESS);
 
     var closeDB = function() {
         db.close();
@@ -23,6 +28,13 @@ module.exports = function(dbpath) {
 
         var where = "";
 
+        var testobject = {
+            id: params.id,
+            title: params.title,
+            series: params.series,
+            volume: params.volume
+        }
+        console.log(JSON.stringify(testobject));
         where += addQueryOnScalar("comic.id", params.id);
 
         params.person = null;
@@ -107,7 +119,6 @@ module.exports = function(dbpath) {
         } else {
             params.order = "series"
         }
-        console.log("Soring by: " + params.order + " desc? " + desc);
         var sortBy = "id";
         switch (params.order) {
             case "volume":
@@ -263,7 +274,26 @@ module.exports = function(dbpath) {
         });
     };
 
-    var getBaseFolders = function() {
+    var getBaseFolders = function(callback) {
+
+    }
+
+    var getUser = function(params, callback) {
+        var sql = "SELECT * FROM users"
+        var where = "";
+        if (!isEmpty(params.id)) {
+            where += "id = ";
+        }
+    }
+    var getProgress = function(params, callback) {
+
+    }
+
+    var addUser = function(userinfo, callback) {
+
+    }
+
+    var setProgress = function(params, callback) {
 
     }
 
@@ -291,12 +321,17 @@ module.exports = function(dbpath) {
         }
     }
 
+
     return {
         getComicInfo: getComicInfo,
         closeDB: closeDB,
         getComicFile: getComicFile,
         getDBInfo: getDBInfo,
-        getFolders: getFolders
+        getFolders: getFolders,
+        getUser: getUser,
+        getProgress: getProgress,
+        addUser: addUser,
+        setProgress: setProgress
 
     };
 
