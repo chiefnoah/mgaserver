@@ -177,6 +177,7 @@ router.get('/comic/:id/thumbnail', function(req, res, next) {
 router.get('/comic/:id/page/:pagenum', function(req, res) {
     console.log("Comic ID: " + req.params.id + " Page Num: " + req.params.pagenum);
     //TODO: extract comic file and serve up the page
+    res.status(404).end();
 });
 
 router.get('/folders/0/:path', function(req, res) {
