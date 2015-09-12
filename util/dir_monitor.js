@@ -1,105 +1,58 @@
-module.exports = function(dir) {
-  var chokidar = require('chokidar');
-  var mPath = require('path');
-  var _ = require('underscore');
-  var db = require('./database');
-  var comic_gen = require('./comic_metadata_generator');
-  var myanimelistscraper = require('./scrapers/myanimelist');
+var chokidar = require('chokidar');
+var hashFiles = require('hash-files');
+var fs = require('fs');
+var mPath = require('path');
+//var config = require('./settings_handler').getConfig();
+var db = require('./database');
 
-  var comicFiles = [];
-  var seriesInFiles = [];
+module.exports = function(base_dir) {
+  console.log("monitoring: " + base_dir);
 
-  //Ignores all files that don't have a cbr/cbz extension
-  var watcher = chokidar.watch(dir, {
-    ignored: /[\/\\]\./, //ignores all files that start with a .
-    persistent: true
+  var watcher = chokidar.watch(base_dir, {
+    ignored: /[\/\\]\./, //ignores all files/folders that start with a .
+    persistent: true,
+    cwd: base_dir
   });
-  //console.log('Monitoring ' + dir + ' for file changes');
-
-
-  watcher.on('add', function(path) {
-    //console.log(path + ' was added');
-
+  watcher.on('add', function(path, stats) {
     if (mPath.extname(path) === '.cbz' || mPath.extname(path) === '.cbr') {
-      var c = comic_gen(path);
-      comicFiles.push(path);
-      seriesInFiles.push(c.series_title);
-      db.comics.update({
+      //console.log("Found comic!: " + path);
+      var path_dirs = mPath.dirname(path).split(mPath.sep);
+      //console.log("Dir: " + mPath.dirname(path));
+      //console.log("Path dirs: " + JSON.stringify(path_dirs) + "\nFile: " + filename);
+      //loop through all folders in path_dirs except for the last, as the last
+      //is the file which should be added to the comic table
+      var currentPath = base_dir;
+      for (var i = 0; i < path_dirs.length; i++) {
+        currentPath = mPath.join(currentPath, path_dirs[i]);
+        //console.log(currentPath);
+        var dir_params = {
+          $parentDir: mPath.dirname(currentPath),
+          $name: mPath.basename(currentPath),
+          $path: mPath.normalize(currentPath)
+        }
+        //console.log(JSON.stringify(params));
+        db.addFolder(dir_params, function(err) {
+          if(err) console.log("There was an error adding folder to DB: " + err);
+        });
+      }
+      var c_params = {
+        filesize: stats.size,
+        date_added: new Date().getTime().toString(),
+        parentDir: mPath.dirname(path),
         path: path
-      }, c, {
-        upsert: true
-      }, function(err, numReplaced, newDoc) {
+        //hash: hashFiles.sync({files: [mPath.join(base_dir, path)], noGlob: true})
+      }
+      console.log(JSON.stringify(c_params));
+      db.addComic(c_params, function(err) {
+        if(err) console.log("Error inserting comic into db: " + err);
+      })
 
-      });
     }
-  });
-
-  watcher.on('unlink', function(path) {
-    console.log('File', path, 'has been removed');
-
+  }).on('unlink', function(path) {
     if (mPath.extname(path) === '.cbz' || mPath.extname(path) === '.cbr') {
-      db.comics.remove({
-        relative_path: path
-      }, {
-        multi: true
-      }, function(err, numRemoved) {
-        if (err) console.log(err);
-        console.log(numRemoved);
-      });
+      //TODO: remove comic file from database
     }
+  }).on('ready', function() {
+    console.log("Done scanning");
   });
-
-  watcher.on('error', function(err) {
-    console.log(err);
-  });
-
-  var scrapperCallback = function(result) {
-    //db.series_dbInsert(result);
-    db.series.insert(result, function(err, newDoc) {
-      //Optional callback
-    });
-  };
-
-  watcher.on('ready', function() {
-    seriesInFiles.sort();
-    seriesInFiles = _.uniq(seriesInFiles, true);
-    //console.log(seriesInFiles);
-
-    removeMissingFiles();
-    for (var i = 0; i < seriesInFiles.length; i++) {
-      if(seriesInFiles[i]) {
-        myanimelistscraper.search(seriesInFiles[i], scrapperCallback);
-      }
-    }
-    console.log('Initial scan complete. Ready for file changes...');
-  });
-
-  //Loops through the files that were just scanned and removes them from the database if they weren't there
-  function removeMissingFiles() {
-    db.comics.find({}, function(err, data) {
-      var pathsSaved = [];
-
-      for (var i = 0; i < data.length; i++) {
-        pathsSaved.push(data[i].relative_path);
-      }
-      var toRemove = _.difference(pathsSaved, comicFiles);
-      var removeCallback = function(err, numRemoved) {
-        if (err) console.log(err);
-      };
-
-
-      for (var z = 0; z < toRemove.length; z++) {
-        db.comics.remove({
-          relative_path: toRemove[z]
-        }, {}, removeCallback);
-      }
-    });
-  }
-
-
-
-  function removeMissingSeries() {
-    //TODO: code for removing series that no longer have files
-  }
-
 };
