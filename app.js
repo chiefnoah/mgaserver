@@ -4,8 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var db = require('./util/database');
-var YACHandler = require('./util/YDBHandler');
+//var YACHandler = require('./util/YDBHandler');
+var db = require('./util/database');
+
 var hbs = require('hbs');
 var config = require('./util/settings_handler').getConfig();
 
