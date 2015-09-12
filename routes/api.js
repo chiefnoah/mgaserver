@@ -3,7 +3,8 @@ var router = express.Router();
 var querystring = require('querystring');
 var path = require('path');
 var config = require('../util/settings_handler');
-var db = require('../util/YDBHandler')(config.getConfig().path);
+//var db = require('../util/YDBHandler')(config.getConfig().path);
+var db = require('../util/database');
 var forever = require('forever-monitor');
 
 router.get("/", function(req, res, next) {
@@ -240,14 +241,21 @@ router.get('/version', function(req, res) {
 
 router.get('/dbinfo', function(req, res) {
     res.type('application/json');
-    //TODO: return DB info. 
-    db.getDBInfo(function(err, dbinfo) {
+    //TODO: return DB info.
+    /*db.getDBInfo(function(err, dbinfo) {
         if(err) {
             res.send({error: "There was an error"});
             return;
         }
         res.send(JSON.stringify(dbinfo))
-    });
+    });*/
+    res.send(JSON.stringify({"comic_count": 12199, "last_updated": "2015-08-13T21:56:37.372000", "id": "f03b53dbd5364377867227e23112d3c7", "created": "2015-06-18T19:13:35.030000"}));
+});
+
+
+router.get('/entities[\\s\\S]*', function(req, res) {
+  var params = req.params[0].split('/');
+  res.send(JSON.stringify(params));
 });
 
 module.exports = router;
