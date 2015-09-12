@@ -4,8 +4,8 @@
   "use_https": false,
   "https_port": 3003,
 
-  "path": "F:/eBooks/eComics",
-  "paths": ["F:/eBooks/eComics/", "F:/Development/NodeJS/mgaserver/Comics"],
+  "yac_path": "F:/eBooks/eComics",
+  "paths": ["F:/eBooks/eComics"],
 
   "use_api_key": true,
 
