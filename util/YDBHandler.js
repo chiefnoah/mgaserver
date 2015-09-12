@@ -28,13 +28,6 @@ module.exports = function(dbpath) {
 
         var where = "";
 
-        var testobject = {
-            id: params.id,
-            title: params.title,
-            series: params.series,
-            volume: params.volume
-        }
-        console.log(JSON.stringify(testobject));
         where += addQueryOnScalar("comic.id", params.id);
 
         params.person = null;
